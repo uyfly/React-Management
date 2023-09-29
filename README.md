@@ -1,4 +1,4 @@
-## Managemnet System
+## Management System
 
 React + Express로 만들어진 고객관리 시스템
 
