@@ -1,4 +1,12 @@
-import logo from "./logo.svg";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from "@mui/material";
 import "./App.css";
 import Customer from "./components/Customer";
 
@@ -30,11 +38,25 @@ const customers = [
 ];
 function App() {
   return (
-    <div>
-      {customers.map((c) => (
-        <Customer key={c.id} customer={c} />
-      ))}
-    </div>
+    <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell>번호</TableCell>
+            <TableCell>프로필</TableCell>
+            <TableCell>이름</TableCell>
+            <TableCell>생년월일</TableCell>
+            <TableCell>성별</TableCell>
+            <TableCell>직업</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {customers.map((c) => (
+            <Customer key={c.id} customer={c} />
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 }
 
