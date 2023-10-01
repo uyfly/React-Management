@@ -1,5 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
+import {
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  DialogContent,
+  TextField,
+  Button,
+} from "@mui/material";
+import { styled } from "@mui/material/styles";
 
 const CustomerAdd = (props) => {
   const [file, setFile] = useState();
@@ -8,6 +17,21 @@ const CustomerAdd = (props) => {
   const [birthday, setBirthday] = useState();
   const [gender, setGender] = useState();
   const [job, setJob] = useState();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setIsOpen(true);
+  };
+
+  const handleClose = () => {
+    setFile(null);
+    setFileName("");
+    setUserName("");
+    setBirthday("");
+    setGender("");
+    setJob("");
+    setIsOpen(false);
+  };
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -15,6 +39,7 @@ const CustomerAdd = (props) => {
       console.log(response.data);
       props.stateRefresh();
     });
+    setIsOpen(false);
   };
 
   const handleFileChange = (e) => {
@@ -54,43 +79,87 @@ const CustomerAdd = (props) => {
     return axios.post(url, formData, config);
   };
 
+  const VisuallyHiddenInput = styled("input")({
+    clip: "rect(0 0 0 0)",
+    clipPath: "inset(50%)",
+    height: 1,
+    overflow: "hidden",
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    whiteSpace: "nowrap",
+    width: 1,
+  });
+
   return (
-    <form onSubmit={handleFormSubmit}>
-      <h1>고객추가</h1>
-      프로필 이미지:
-      <input
-        type="file"
-        name="file"
-        file={file}
-        value={fileName}
-        onChange={handleFileChange}
-      />
-      <br />
-      이름:
-      <input
-        type="text"
-        name="userName"
-        value={userName}
-        onChange={handleUserNameChange}
-      />
-      생년월일:
-      <input
-        type="text"
-        name="birthday"
-        value={birthday}
-        onChange={handleBirthdayChange}
-      />
-      성별:
-      <input
-        type="text"
-        name="gender"
-        value={gender}
-        onChange={handleGenderChange}
-      />
-      직업:
-      <input type="text" name="job" value={job} onChange={handleJobChange} />
-      <button type="submit">추가하기</button>
-    </form>
+    <div>
+      <Button variant="contained" color="primary" onClick={handleClickOpen}>
+        고객 추가하기
+      </Button>
+      <Dialog open={isOpen} onClose={handleClose}>
+        <DialogTitle>고객 추가</DialogTitle>
+        <DialogContent>
+          <input
+            accept="image/*"
+            id="raised-button-file"
+            type="file"
+            file={file}
+            value={fileName}
+            onChange={handleFileChange}
+          />
+          <label htmlFor="raised-button-file">
+            {/* <Button component="label" variant="contained">
+              {fileName === "" ? "프로필 이미지 선택" : fileName}
+              <VisuallyHiddenInput type="file" />
+            </Button> */}
+          </label>
+          <br />
+          <TextField
+            label="이름"
+            type="text"
+            name="userName"
+            value={userName}
+            onChange={handleUserNameChange}
+          />
+          <br />
+          <TextField
+            label="생년월일"
+            type="text"
+            name="birthday"
+            value={birthday}
+            onChange={handleBirthdayChange}
+          />
+          <br />
+          <TextField
+            label="성별"
+            type="text"
+            name="gender"
+            value={gender}
+            onChange={handleGenderChange}
+          />
+          <br />
+          <TextField
+            label="직업"
+            type="text"
+            name="job"
+            value={job}
+            onChange={handleJobChange}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleFormSubmit}
+          >
+            추가
+          </Button>
+          <Button variant="outlined" color="primary" onClick={handleClose}>
+            닫기
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
   );
 };
 
