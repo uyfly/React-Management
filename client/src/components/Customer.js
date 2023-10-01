@@ -1,7 +1,8 @@
 import React from "react";
 import { TableRow, TableCell } from "@mui/material";
+import CustomerDelete from "./CustomerDelete";
 
-const Customer = ({ customer }) => {
+const Customer = ({ customer, stateRefresh }) => {
   return (
     <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
       <TableCell>{customer.id}</TableCell>
@@ -12,6 +13,9 @@ const Customer = ({ customer }) => {
       <TableCell>{customer.birthday}</TableCell>
       <TableCell>{customer.gender}</TableCell>
       <TableCell>{customer.job}</TableCell>
+      <TableCell>
+        <CustomerDelete stateRefresh={stateRefresh} id={customer.id} />
+      </TableCell>
     </TableRow>
   );
 };

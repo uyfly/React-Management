@@ -52,11 +52,14 @@ function App() {
               <TableCell>생년월일</TableCell>
               <TableCell>성별</TableCell>
               <TableCell>직업</TableCell>
+              <TableCell>설정</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {customers ? (
-              customers.map((c) => <Customer key={c.id} customer={c} />)
+              customers.map((c) => (
+                <Customer key={c.id} customer={c} stateRefresh={stateRefresh} />
+              ))
             ) : (
               <TableRow>
                 <TableCell colSpan={6} align="center">
