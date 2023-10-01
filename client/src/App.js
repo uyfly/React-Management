@@ -7,14 +7,17 @@ import {
   TableHead,
   TableRow,
   Paper,
+  CircularProgress,
 } from "@mui/material";
 import "./App.css";
 import Customer from "./components/Customer";
 
 function App() {
   const [customers, setCustomers] = useState();
+  const [completed, setCompleted] = useState(0);
 
   useEffect(() => {
+    let timer = setInterval(progress, 20);
     callApi()
       .then((res) => setCustomers(res))
       .catch((err) => console.log(err));
@@ -24,6 +27,10 @@ function App() {
     const response = await fetch("/api/customers");
     const body = await response.json();
     return body;
+  };
+
+  const progress = () => {
+    setCompleted((prev) => (prev >= 100 ? 0 : prev + 1));
   };
 
   return (
@@ -40,8 +47,15 @@ function App() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {customers &&
-            customers.map((c) => <Customer key={c.id} customer={c} />)}
+          {customers ? (
+            customers.map((c) => <Customer key={c.id} customer={c} />)
+          ) : (
+            <TableRow>
+              <TableCell colSpan={6} align="center">
+                <CircularProgress variant="indeterminate" value={completed} />
+              </TableCell>
+            </TableRow>
+          )}
         </TableBody>
       </Table>
     </TableContainer>
